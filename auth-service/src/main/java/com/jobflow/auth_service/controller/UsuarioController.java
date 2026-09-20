@@ -18,13 +18,13 @@ public class UsuarioController {
         this.usuarioServices = usuarioServices;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/userregister")
     public ResponseEntity<Usuario> registerUsuario(@RequestBody UsuarioDTO usuarioDTO){
         Usuario savedUsuario = usuarioServices.saveUsuario(usuarioDTO);
         return ResponseEntity.status(201).body(savedUsuario);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/userlogin")
     public ResponseEntity<String> loginUsuario(@RequestBody UsuarioDTO usuarioDTO){
         String token = usuarioServices.login(usuarioDTO);
         if(token != null){

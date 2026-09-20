@@ -3,6 +3,7 @@ package com.jobflow.job_service.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,17 +35,20 @@ public class JobController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Job> createJob(Job job) {
+    @PreAuthorize("hasRole('COMPANY')")
+    public ResponseEntity<Job> createJob(@RequestBody  Job job) {
         Job createdJob = jobService.saveJob(job);
         return ResponseEntity.ok(createdJob);
     }
 
     @PutMapping ("/update/{id}")
+    @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Job> updateJob(@PathVariable  Long id,@RequestBody  JobDTO jobDTO) {
         return ResponseEntity.ok(jobService.updateJob(id,jobDTO));
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         jobService.deleteJob(id);
         return ResponseEntity.noContent().build();

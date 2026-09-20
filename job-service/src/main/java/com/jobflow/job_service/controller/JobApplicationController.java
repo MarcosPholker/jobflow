@@ -10,7 +10,7 @@ import com.jobflow.job_service.services.JobApplicationService;
 import com.jobflow.job_service.model.JobApplication;
 
 @RestController 
-@PreAuthorize("hasRole('USER')")
+
 public class JobApplicationController {
     JobApplicationService jobApplicationService;
     public JobApplicationController(JobApplicationService jobApplicationService) {
@@ -18,6 +18,7 @@ public class JobApplicationController {
     }
 
     @PostMapping("/application")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<JobApplication> jobApplication(@PathVariable Long jobId) {
         return ResponseEntity.ok().body(jobApplicationService.applicationJob(jobId));
     }
