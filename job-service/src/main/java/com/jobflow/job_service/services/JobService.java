@@ -32,6 +32,9 @@ public class JobService {
         updateJob.setCompany(jobDTO.getCompany());
         return jobRepositores.save(updateJob);
     }
+    public Job updateJob(Job job){
+        return jobRepositores.save(job);
+    }
     public void deleteJob(Long id){
         jobRepositores.deleteById(id);
     }

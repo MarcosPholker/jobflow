@@ -9,26 +9,26 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.jobflow.auth_service.model.Usuario;
+import com.jobflow.auth_service.model.Company;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
-public class TokenService {
+public class TokenServiceCompany {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(Company company) {
 
     SecretKey key = Keys.hmacShaKeyFor(
         secret.getBytes(StandardCharsets.UTF_8)
     );
 
     return Jwts.builder()
-            .subject(usuario.getEmail())
-            .claim("userId", usuario.getId())
-            .claim("role", usuario.getTypeUser().name())
+            .subject(company.getEmail())
+            .claim("userId", company.getId())
+            .claim("role", company.getTypeUser().name())
             .issuedAt(new Date())
             .expiration(new Date(System.currentTimeMillis() + 3600000))
             .signWith(key)

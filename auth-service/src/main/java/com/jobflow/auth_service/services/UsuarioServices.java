@@ -7,15 +7,15 @@ import com.jobflow.auth_service.Repository.UsuarioRepository;
 import com.jobflow.auth_service.dto.UsuarioDTO;
 import com.jobflow.auth_service.enums.TypeUser;
 import com.jobflow.auth_service.model.Usuario;
-import com.jobflow.auth_service.security.TokenService;
+import com.jobflow.auth_service.security.TokenServiceUser;
 
 @Service 
 public class UsuarioServices {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final TokenServiceUser tokenService;
 
-    public UsuarioServices(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public UsuarioServices(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenServiceUser tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;

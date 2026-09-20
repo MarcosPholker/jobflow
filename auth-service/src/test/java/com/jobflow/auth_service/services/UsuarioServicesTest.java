@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.jobflow.auth_service.Repository.UsuarioRepository;
 import com.jobflow.auth_service.dto.UsuarioDTO;
 import com.jobflow.auth_service.model.Usuario;
-import com.jobflow.auth_service.security.TokenService;
+import com.jobflow.auth_service.security.TokenServiceUser;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioServicesTest {
@@ -30,7 +30,7 @@ class UsuarioServicesTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private TokenService tokenService;
+    private TokenServiceUser tokenService;
 
     @InjectMocks
     private UsuarioServices usuarioServices;

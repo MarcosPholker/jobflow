@@ -2,8 +2,6 @@ package com.jobflow.job_service.services;
 
 import java.time.LocalDateTime;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.jobflow.job_service.repositores.JobRepositores;
@@ -21,14 +19,10 @@ public class JobApplicationService {
         this.applicationJobRepositores = applicationJobRepositores;
     }
 
-    public JobApplication applicationJob(Long jobId) {
+    public JobApplication applicationJob(Long userId, Long jobId) {
         Job job = jobRepositores.findById(jobId).orElse(null);
         
         if (job != null) {
-
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            Long userId = (Long) authentication.getPrincipal();
 
             JobApplication applicationJob = new JobApplication();
 
@@ -37,7 +31,6 @@ public class JobApplicationService {
             applicationJob.setStatus(StatusApplicationJob.APPLIED);
             applicationJob.setAppliedAt(LocalDateTime.now());
 
-            
             return applicationJobRepositores.save(applicationJob);
         }
         return null;

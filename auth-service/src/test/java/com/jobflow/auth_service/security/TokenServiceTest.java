@@ -13,7 +13,7 @@ class TokenServiceTest {
 
     @Test
     void gerarToken_shouldCreateTokenThatCanBeValidated() {
-        TokenService tokenService = new TokenService();
+        TokenServiceUser tokenService = new TokenServiceUser();
         ReflectionTestUtils.setField(tokenService, "secret", SECRET);
 
         String token = tokenService.gerarToken("alice@example.com");
@@ -24,7 +24,7 @@ class TokenServiceTest {
 
     @Test
     void validarToken_shouldReturnNullForInvalidToken() {
-        TokenService tokenService = new TokenService();
+        TokenServiceUser tokenService = new TokenServiceUser();
         ReflectionTestUtils.setField(tokenService, "secret", SECRET);
 
         String result = tokenService.validarToken("invalid-token");

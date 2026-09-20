@@ -19,6 +19,7 @@ import com.jobflow.job_service.model.Job;
 import com.jobflow.job_service.model.JobApplication;
 import com.jobflow.job_service.repositores.JobRepositores;
 
+
 @ExtendWith(MockitoExtension.class)
 class ApplicationJobServiceTest {
 
@@ -26,7 +27,7 @@ class ApplicationJobServiceTest {
     private JobRepositores jobRepositores;
 
     @InjectMocks
-    private ApplicationJobService applicationJobService;
+    private JobApplicationService applicationJobService;
 
     @Test
     void applicationJob_shouldCreateApplicationWhenJobExists() {
