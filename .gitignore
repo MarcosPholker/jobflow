@@ -5,7 +5,23 @@
 **/.project
 **/.settings/
 **/.idea/
+**/.factorypath
+**/.metadata/
 .vscode/
 *.class
 *.log
+*.tmp
+*.swp
+*.orig
 .DS_Store
+Thumbs.db
+
+# Local environment / secrets
+.env
+.env.*
+**/application-local.properties
+**/application-dev.properties
+**/src/main/resources/application.properties
+
+# OS files
+._*
