@@ -1,6 +1,8 @@
 package com.jobflow.auth_service.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +22,8 @@ public class Company {
     private String email;
     @NotBlank 
     private String password;
-    
+
+    @Enumerated(EnumType.STRING)
     private TypeUser typeUser;
 
     public Company() {}

@@ -7,16 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.jobflow.auth_service.model.Usuario;
+
 class TokenServiceTest {
 
     private static final String SECRET = "JobFlowJWTSecretKey2026MuitoSegura123456789";
 
     @Test
     void gerarToken_shouldCreateTokenThatCanBeValidated() {
-        TokenServiceUser tokenService = new TokenServiceUser();
+        TokenService tokenService = new TokenService();
         ReflectionTestUtils.setField(tokenService, "secret", SECRET);
 
-        String token = tokenService.gerarToken("alice@example.com");
+        String token = tokenService.gerarToken(new Usuario());
 
         assertNotNull(token);
         assertEquals("alice@example.com", tokenService.validarToken(token));
@@ -24,7 +26,7 @@ class TokenServiceTest {
 
     @Test
     void validarToken_shouldReturnNullForInvalidToken() {
-        TokenServiceUser tokenService = new TokenServiceUser();
+        TokenService tokenService = new TokenService();
         ReflectionTestUtils.setField(tokenService, "secret", SECRET);
 
         String result = tokenService.validarToken("invalid-token");

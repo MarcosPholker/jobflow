@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.jobflow.auth_service.Repository.UsuarioRepository;
 import com.jobflow.auth_service.dto.UsuarioDTO;
 import com.jobflow.auth_service.model.Usuario;
-import com.jobflow.auth_service.security.TokenServiceUser;
+import com.jobflow.auth_service.security.TokenService;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioServicesTest {
@@ -30,7 +30,7 @@ class UsuarioServicesTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private TokenServiceUser tokenService;
+    private TokenService tokenService;
 
     @InjectMocks
     private UsuarioServices usuarioServices;
@@ -60,8 +60,6 @@ class UsuarioServicesTest {
         Usuario usuario = new Usuario(1L, "alice", "alice@example.com", "encoded-password");
 
         when(usuarioRepository.findByEmail("alice@example.com")).thenReturn(usuario);
-        when(passwordEncoder.matches("plain-password", "encoded-password")).thenReturn(true);
-        when(tokenService.gerarToken("alice@example.com")).thenReturn("jwt-token");
 
         String token = usuarioServices.login(usuarioDTO);
 

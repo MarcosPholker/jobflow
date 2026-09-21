@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity 
 public class Job {
@@ -17,7 +19,8 @@ public class Job {
     private String title;
     @NotBlank
     private String description;
-    @NotBlank
+    @NotNull
+    @Positive
     private Double salary;
     @NotBlank
     private String location;
@@ -126,14 +129,14 @@ public class Job {
     }
 
     /**
-     * @return String return the jobType
+     * @return String return the jobtype
      */
     public String getJobType() {
         return jobType;
     }
 
     /**
-     * @param jobType the jobType to set
+     * @param jobType the jobtype to set
      */
     public void setJobType(String jobType) {
         this.jobType = jobType;

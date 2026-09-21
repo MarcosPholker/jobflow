@@ -1,7 +1,6 @@
 package com.jobflow.job_service.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +18,14 @@ public class JobApplicationController {
         this.jobApplicationService = jobApplicationService;
     }
 
-    @PostMapping("/application")
-    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/application/{jobId}")
     public ResponseEntity<JobApplication> jobApplication(@PathVariable Long jobId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = (Long) authentication.getPrincipal();
-        return ResponseEntity.ok().body(jobApplicationService.applicationJob(userId, jobId));
+        JobApplication jobApplication = jobApplicationService.applicationJob(userId, jobId);
+        if(jobApplication.getJobId() == null){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(jobApplication);
     }
 }

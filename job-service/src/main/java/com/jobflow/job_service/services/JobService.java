@@ -16,12 +16,23 @@ public class JobService {
         this.jobRepositores = jobRepositores;
     }
 
-    public Job saveJob(Job job){
+    public Job saveJob(JobDTO jobDTO){
+        Job job = new Job(
+                null, 
+                jobDTO.getTitle(), 
+                jobDTO.getDescription(), 
+                jobDTO.getSalary(), 
+                jobDTO.getLocation(), 
+                jobDTO.getCompany(), 
+                jobDTO.getJobType(), 
+                LocalDateTime.now());
         return jobRepositores.save(job);
     }
+
     public Job getJobById(Long id){
         return jobRepositores.findById(id).orElse(null);
     }
+
     public Job updateJob(Long id, JobDTO jobDTO){
         Job updateJob = jobRepositores.findById(id).orElse(null);
         updateJob.setTitle(jobDTO.getTitle());
@@ -30,6 +41,7 @@ public class JobService {
         updateJob.setCreatedAt(LocalDateTime.now());
         updateJob.setLocation(jobDTO.getLocation());
         updateJob.setCompany(jobDTO.getCompany());
+        updateJob.setJobType(jobDTO.getJobType());
         return jobRepositores.save(updateJob);
     }
     public Job updateJob(Job job){

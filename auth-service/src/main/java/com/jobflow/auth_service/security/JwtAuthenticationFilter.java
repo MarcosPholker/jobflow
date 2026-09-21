@@ -1,6 +1,7 @@
 package com.jobflow.auth_service.security;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -9,19 +10,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Collections;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenServiceUser tokenServiceUser;
-    private final TokenServiceCompany tokenServiceCompany;
+    private final TokenService tokenService;
 
-    public JwtAuthenticationFilter(TokenServiceUser tokenServiceUser, TokenServiceCompany tokenServiceCompany) {
-        this.tokenServiceUser = tokenServiceUser;
-        this.tokenServiceCompany = tokenServiceCompany;
+    public JwtAuthenticationFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -29,27 +29,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain)
-
             throws ServletException, IOException {
 
-            String authHeader = request.getHeader("Authorization");
-            if(authHeader != null && authHeader.startsWith("Bearer ")){
-                String token = authHeader.substring(7);
-                String emailCompany = tokenServiceCompany.validarToken(token);
-                String emailUser = tokenServiceUser.validarToken(token);
+        String authHeader = request.getHeader("Authorization");
 
-                if(emailUser != null){
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            emailUser, null, Collections.emptyList());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-                
-                if(emailCompany != null){
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            emailCompany, null, Collections.emptyList());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+            String token = authHeader.substring(7);
+
+            String email = tokenService.validarToken(token);
+            String role = tokenService.getRole(token);
+
+            if (email != null && role != null) {
+
+                SimpleGrantedAuthority authority =
+                        new SimpleGrantedAuthority("ROLE_" + role);
+
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                email,
+                                null,
+                                Collections.singletonList(authority)
+                        );
+
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authentication);
             }
-            filterChain.doFilter(request, response);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }
